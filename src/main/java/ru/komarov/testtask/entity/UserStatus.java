@@ -1,7 +1,5 @@
 package ru.komarov.testtask.entity;
 
-import java.util.NoSuchElementException;
-
 public enum UserStatus {
     ONLINE ("ONLINE"),
     AWAY ("AWAY"),

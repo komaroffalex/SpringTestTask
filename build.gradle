@@ -2,11 +2,15 @@ plugins {
 	id 'org.springframework.boot' version '2.2.1.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 	id 'java'
+	id 'application'
 }
 
 group = 'ru.komarov'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
+
+// Define the main class for the application
+mainClassName = "ru.komarov.testtask.TesttaskApplication"
 
 configurations {
 	developmentOnly
@@ -23,11 +27,18 @@ dependencies {
 	compile("com.google.guava:guava:27.0.1-jre")
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	developmentOnly group: 'com.h2database', name: 'h2', version: '1.4.200'
+	implementation group: 'com.h2database', name: 'h2', version: '1.4.200'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'	
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testCompile group: 'junit', name: 'junit', version: '4.12'
+	testCompile group: 'org.springframework', name: 'spring-test', version: '5.2.1.RELEASE'
+	testCompile group: 'org.assertj', name: 'assertj-core', version: '3.14.0'
 }
 
 test {
 	useJUnitPlatform()
 }
+
+
+
+

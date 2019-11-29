@@ -11,7 +11,6 @@ import ru.komarov.testtask.service.ServiceImpl;
 
 import javax.validation.constraints.NotNull;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @RestController
 @RequestMapping
@@ -67,12 +66,12 @@ public class UserController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<String> upsertNewUser(@RequestParam String firstname, @RequestParam String lastname,
-                                              @RequestParam String email, @RequestParam String phone) {
+                                                @RequestParam String email, @RequestParam String phone) {
         if (null == firstname || null == lastname || null == email || null == phone) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        Long newId = service.upsertUser(firstname, lastname, email, phone);
-        String resp = "{\"id\":" + newId.toString() + "}";
+        final Long newId = service.upsertUser(firstname, lastname, email, phone);
+        final String resp = "{\"id\":" + newId.toString() + "}";
         return new ResponseEntity<>(resp, HttpStatus.CREATED);
     }
 }

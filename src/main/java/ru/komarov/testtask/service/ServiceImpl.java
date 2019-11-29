@@ -16,7 +16,6 @@ import java.util.concurrent.*;
 
 @Service
 public class ServiceImpl {
-
     private final UserRepository userRepository;
     private Map<String, UserStatus> statusTracker;
     @NotNull
@@ -39,7 +38,7 @@ public class ServiceImpl {
 
     public Long upsertUser(@NotNull final String firstName, @NotNull final String lastName,
                            @NotNull final String email, @NotNull final String phone) {
-        User testUsr1 = new User();
+        final User testUsr1 = new User();
         testUsr1.setFirstName(firstName);
         testUsr1.setLastName(lastName);
         testUsr1.setEmail(email);
@@ -57,15 +56,10 @@ public class ServiceImpl {
             throws NoSuchElementException {
         findUser(userId);
         statusTracker.put(userId, status);
-        Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                statusTracker.put(userId, UserStatus.AWAY);
-            }
-        };
         Optional<ScheduledFuture<?>> task = Optional.ofNullable(futures.get(userId));
-        Optional.ofNullable(futures.get(userId)).ifPresent((s) -> s.cancel(false));
+        task.ifPresent((s) -> s.cancel(false));
         if (task.isPresent()) futures.remove(userId);
-        futures.put(userId, workerThreads.schedule(r, 10, TimeUnit.SECONDS));
+        futures.put(userId, workerThreads.schedule(() -> statusTracker.put(userId, UserStatus.AWAY),
+                5, TimeUnit.MINUTES));
     }
 }
