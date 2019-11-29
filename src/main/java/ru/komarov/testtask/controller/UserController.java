@@ -28,6 +28,13 @@ public class UserController {
         return "index";
     }
 
+    /**
+     * Change user's status.
+     *
+     * @param id user's ID
+     * @param status user's new status
+     * @return user's id, old status and new status
+     */
     @RequestMapping(value = "/user/status", method = RequestMethod.PUT,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -48,6 +55,12 @@ public class UserController {
         }
     }
 
+    /**
+     * Get user by the specified ID.
+     *
+     * @param id user's ID
+     * @return user's info
+     */
     @RequestMapping(value = "/user", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -62,6 +75,15 @@ public class UserController {
         }
     }
 
+    /**
+     * Upsert new user into the DB.
+     *
+     * @param firstname user's first name
+     * @param lastname user's last name
+     * @param email user's email
+     * @param phone user's phone number
+     * @return user's id
+     */
     @RequestMapping(value = "/user", method = RequestMethod.PUT,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody

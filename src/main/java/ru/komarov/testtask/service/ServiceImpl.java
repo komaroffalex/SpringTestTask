@@ -31,11 +31,26 @@ public class ServiceImpl {
         this.futures = new HashMap<>();
     }
 
+    /**
+     * Find user in the DB.
+     *
+     * @param userId specifies user's ID
+     * @return user entity
+     */
     public User findUser(@NotNull final String userId) throws NoSuchElementException {
         return userRepository.findById(Long.parseLong(userId)).orElseThrow(()
                 -> new NoSuchElementException("User is not present!"));
     }
 
+    /**
+     * Upsert user into the DB.
+     *
+     * @param firstName specifies user's first name
+     * @param lastName specifies user's last name
+     * @param email specifies user's email
+     * @param phone specifies user's phone
+     * @return user ID
+     */
     public Long upsertUser(@NotNull final String firstName, @NotNull final String lastName,
                            @NotNull final String email, @NotNull final String phone) {
         final User testUsr1 = new User();
@@ -46,12 +61,23 @@ public class ServiceImpl {
         return userRepository.save(testUsr1).getId();
     }
 
+    /**
+     * Get current user status.
+     *
+     * @param userId specifies user ID
+     */
     public UserStatus getStatus(@NotNull final String userId) throws NoSuchElementException {
         findUser(userId);
         Optional<UserStatus> status = Optional.ofNullable(statusTracker.get(userId));
         return status.orElse(UserStatus.OFFLINE);
     }
 
+    /**
+     * Set new user status.
+     *
+     * @param userId specifies user ID
+     * @param status specifies new status
+     */
     public void setStatus(@NotNull final String userId, @NotNull final UserStatus status)
             throws NoSuchElementException {
         findUser(userId);
